@@ -8,15 +8,14 @@ import { checkDBconnection, syncDBconnection } from './DB/connection.bd.js'
 
 // Import models to ensure they are registered
 import './model/index.js'
-
 const bootstrap = () => {
     const app = express()
-    const port = 3000
+    const port = process.env.PORT || 3000;
     //DB CONNECTON
 
     checkDBconnection()
     syncDBconnection()
-    
+
     //app router
     app.use(express.json())
     app.get('/', (req, res) => res.send('welcome app with sequelize!'))
@@ -25,7 +24,7 @@ const bootstrap = () => {
     app.use("/", userController)
     app.use("/", postController)
     app.use("/", commentController)
-    
+
 
     app.all("{/*dummy}", (req, res, next) => {
         res.status(404).json({ message: "not found" })
